@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitoring Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <style>
+        /* Style for the frames */
+        .frame-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .frame {
+            width: 48%;
+            height: 300px;
+            border: 2px solid #ccc;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            position: relative; /* Ensure the close button is positioned correctly */
+        }
+
+        /* Style for full screen frame */
+        .fullscreen {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Style for close button */
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            z-index: 1001; /* Ensure it's above the fullscreen frame */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">Monitoring Dashboard</div>
+        <ul class="navbar-nav">
+            <li><a href="#" onclick="signOut()">Sign Out</a></li>
+        </ul>
+    </nav>
+    
+    <h1>Welcome, Monitoring User!</h1>
+    <p>This is your monitoring dashboard.</p>
+    
+    <!-- Frames -->
+    <div class="frame-container">
+        <div class="frame" id="frame1" onclick="toggleFullscreen('frame1')">Frame 1</div>
+        <div class="frame" id="frame2" onclick="toggleFullscreen('frame2')">Frame 2</div>
+    </div>
+
+    <!-- Full screen frame container -->
+    <div id="fullscreenContainer"></div>
+
+    <script>
+        function signOut() {
+            // Redirect to login page
+            window.location.href = "/login.html";
+            
+            // Clear browser history to prevent going back
+            window.history.replaceState({}, document.title, "/");
+            
+            // Disable the back button
+            disableBackButton();
+        }
+
+        function toggleFullscreen(frameId) {
+            var frame = document.getElementById(frameId);
+            var otherFrameId = frameId === 'frame1' ? 'frame2' : 'frame1';
+            var otherFrame = document.getElementById(otherFrameId);
+            var fullscreenContainer = document.getElementById('fullscreenContainer');
+
+            // If the clicked frame is already in fullscreen, exit fullscreen
+            if (frame.classList.contains('fullscreen')) {
+                frame.classList.remove('fullscreen');
+                otherFrame.style.display = 'block';
+                fullscreenContainer.innerHTML = '';
+            } else {
+                // Hide the other frame
+                otherFrame.style.display = 'none';
+
+                // Add fullscreen class to the clicked frame
+                frame.classList.add('fullscreen');
+
+                // Append clicked frame to fullscreen container
+                fullscreenContainer.innerHTML = frame.outerHTML;
+                var closeButton = document.createElement('div');
+                closeButton.classList.add('close-button');
+                closeButton.innerHTML = '&#10006;'; // Close icon (X)
+                closeButton.onclick = function () {
+                    toggleFullscreen(frameId); // Close fullscreen on close button click
+                };
+                fullscreenContainer.appendChild(closeButton);
+            }
+        }
+
+        function disableBackButton() {
+            window.history.pushState(null, "", window.location.href);
+            window.onpopstate = function () {
+                window.history.pushState(null, "", window.location.href);
+            };
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>ProDost</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        /* Hide the forms by default */
+        .login-form {
+            display: none;
+        }
+
+        /* Style for the dropdown box */
+        #roleSelect {
+            background-color: #f0f0f0; /* Set the background color */
+            border: none; /* Remove border */
+            width: 200px;
+            padding: 5px;
+            margin-bottom: 10px;
+            color: black; /* Set text color */
+        }
+
+        /* Style for dropdown options */
+        #roleSelect option {
+            color: black; /* Set text color */
+        }
+
+        /* Style for the ping container */
+        #pingContainer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card" data-state="#about">
+        <div class="card-header">
+            <div class="card-cover"
+                style="background-image: url('https://jeremycte.com/hello/images/background-cover.jpg')"></div>
+            <img class="card-avatar" src="/pro.jpg" alt="Logo" />
+            <h1 class="card-fullname">WELCOME</h1>
+
+        </div>
+        <div class="card-main">
+            <div class="card-section is-active" id="about">
+                <div class="card-content">
+                    <div id="loginTitle" class="card-subtitle">SELECT ROLE</div>
+                    <!-- Role selection dropdown -->
+                    <label for="roleSelect" style="margin-top: 10px;">Select Role:</label>
+                    <select id="roleSelect" name="roleSelect" onchange="toggleSignInForm()" class="dsc-nus">
+                        <option value="" disabled selected>Select a Role</option>
+                        <option value="unregistered">Unregistered User</option>
+                        <option value="monitoring">Monitoring</option>
+                        <option value="operator">Operator</option>
+                        <option value="administrator">Administrator</option>
+                        <option value="api">API</option>
+                    </select>
+
+                    <!-- Unregistered User sign-in form -->
+                    <form id="unregisteredLoginForm" action="#" method="POST" class="login-form"
+                        style="text-align: center; background-color: inherit;">
+                        <label for="unregisteredUsername" style="margin-top: 10px;">Username:</label>
+                        <input type="text" id="unregisteredUsername" name="unregisteredUsername"
+                            placeholder="Enter your username" required class="dsc-nus"
+                            style="width: 200px; padding: 5px; margin-bottom: 10px;">
+
+                        <label for="unregisteredPassword" style="margin-top: 10px;">Password:</label>
+                        <input type="password" id="unregisteredPassword" name="unregisteredPassword"
+                            placeholder="Enter your password" required class="freshman-kit"
+                            style="width: 200px; padding: 5px; margin-bottom: 10px;">
+
+                        <button type="button" onclick="login('unregistered')" class="dsc-nus"
+                            style="width: 200px; padding: 10px;">Log In</button>
+                    </form>
+
+                    <!-- Monitoring sign-in form -->
+                    <form id="monitoringLoginForm" action="#" method="POST" class="login-form"
+                        style="text-align: center; background-color: inherit;">
+                        <label for="monitoringUsername" style="margin-top: 10px;">Username:</label>
+                        <input type="text" id="monitoringUsername" name="monitoringUsername"
+                            placeholder="Enter your username" required class="dsc-nus"
+                            style="width: 200px; padding: 5px; margin-bottom: 10px;">
+
+                        <label for="monitoringPassword" style="margin-top: 10px;">Password:</label>
+                        <input type="password" id="monitoringPassword" name="monitoringPassword"
+                            placeholder="Enter your password" required class="freshman-kit"
+                            style="width: 200px; padding: 5px; margin-bottom: 10px;">
+
+                        <button type="button" onclick="login('monitoring')" class="dsc-nus"
+                            style="width: 200px; padding: 10px;">Log In</button>
+                    </form>
+
+                    <!-- Operator sign-in form -->
+                    <form id="operatorLoginForm" action="#" method="POST" class="login-form"
+                        style="text-align: center; background-color: inherit;">
+                        <label for="operatorUsername" style="margin-top: 10px;">Username:</label>
+                        <input type="text" id="operatorUsername" name="operatorUsername"
+                            placeholder="Enter your username" required class="dsc-nus"
+                            style="width: 200px; padding: 5px; margin-bottom: 10px;">
+
+                        <label for="operatorPassword" style="margin-top: 10px;">Password:</label>
+                        <input type="password" id="operatorPassword" name="operatorPassword"
+                            placeholder="Enter your password" required class="freshman-kit"
+                            style="width: 200px; padding: 5px; margin-bottom: 10px;">
+
+                        <button type="button" onclick="login('operator')" class="dsc-nus"
+                            style="width: 200px; padding: 10px;">Log In</button>
+                    </form>
+
+                    <!-- Administrator sign-in form -->
+                    <form id="administratorLoginForm" action="#" method="POST" class="login-form"
+                        style="text-align: center; background-color: inherit;">
+                        <label for="administratorUsername" style="margin-top: 10px;">Username:</label>
+                        <input type="text" id="administratorUsername" name="administratorUsername"
+                            placeholder="Enter your username" required class="dsc-nus"
+                            style="width: 200px; padding: 5px; margin-bottom: 10px;">
+
+                        <label for="administratorPassword" style="margin-top: 10px;">Password:</label>
+                        <input type="password" id="administratorPassword" name="administratorPassword"
+                            placeholder="Enter your password" required class="freshman-kit"
+                            style="width: 200px; padding: 5px; margin-bottom: 10px;">
+
+                        <button type="button" onclick="login('administrator')" class="dsc-nus"
+                            style="width: 200px; padding: 10px;">Log In</button>
+                    </form>
+
+                    <!-- API sign-in form -->
+                    <form id="apiLoginForm" action="#" method="POST" class="login-form"
+                        style="text-align: center; background-color: inherit;">
+                        <label for="apiUsername" style="margin-top: 10px;">Username:</label>
+                        <input type="text" id="apiUsername" name="apiUsername" placeholder="Enter your username"
+                            required class="dsc-nus" style="width: 200px; padding: 5px; margin-bottom: 10px;">
+
+                        <label for="apiPassword" style="margin-top: 10px;">Password:</label>
+                        <input type="password" id="apiPassword" name="apiPassword" placeholder="Enter your password"
+                            required class="freshman-kit" style="width: 200px; padding: 5px; margin-bottom: 10px;">
+
+                        <button type="button" onclick="login('api')" class="dsc-nus"
+                            style="width: 200px; padding: 10px;">Log In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ping container in the footer -->
+    <div id="pingContainer">
+        IP Address: <span id="ipAddress">...</span><br>
+        Ping status for IP Address <span id="pingIpAddress">...</span>: <span id="pingStatus">...</span>
+    </div>
+
+    <script>
+        function toggleSignInForm() {
+            var roleSelect = document.getElementById('roleSelect');
+            var loginForms = document.getElementsByClassName('login-form');
+            var loginTitle = document.getElementById('loginTitle');
+    
+            // Hide all login forms by default
+            for (var i = 0; i < loginForms.length; i++) {
+                loginForms[i].style.display = 'none';
+            }
+    
+            // Show the selected form based on the selected role
+            var selectedRoleFormId = roleSelect.value + 'LoginForm';
+            var selectedLoginForm = document.getElementById(selectedRoleFormId);
+            if (selectedLoginForm) {
+                selectedLoginForm.style.display = 'block';
+            }
+    
+            // Disable the role selection dropdown
+            roleSelect.disabled = true;
+    
+            // Change the title to "LOGIN"
+            loginTitle.innerText = 'LOGIN';
+        }
+
+        function login(role) {
+            // Here, you would typically perform login authentication, but for this example, let's assume authentication is successful
+            // After successful login, redirect to the corresponding page based on role
+
+            var redirectUrl = '';
+            switch (role) {
+                case 'unregistered':
+                    redirectUrl = '/unregisteredPage.html';
+                    break;
+                case 'monitoring':
+                    redirectUrl = '/monitoringDashboard.html';
+                    break;
+                case 'operator':
+                    redirectUrl = '/operatorPage.html';
+                    break;
+                case 'administrator':
+                    redirectUrl = '/administratorPage.html';
+                    break;
+                case 'api':
+                    redirectUrl = '/apiPage.html';
+                    break;
+                default:
+                    break;
+            }
+            // Redirect
+            window.location.href = redirectUrl;
+        }
+
+        // Function to update ping status
+        function updatePingStatus(ip, status) {
+            document.getElementById('pingIpAddress').innerText = ip;
+            document.getElementById('pingStatus').innerText = status;
+        }
+
+        // Function to update IP address
+        function updateIpAddress(ip) {
+            document.getElementById('ipAddress').innerText = ip;
+        }
+
+        // Function to get client's IP address
+        async function getClientIp() {
+            const response = await fetch('https://api.ipify.org/?format=json');
+            const data = await response.json();
+            return data.ip;
+        }
+
+        // Function to update ping status and IP address
+        async function updatePingStatusAndIp() {
+            const ipAddress = await getClientIp();
+            updateIpAddress(ipAddress);
+
+            // Fetch IP address of the server (replace with your server's IP or domain)
+            const serverIpAddress = await fetchServerIpAddress();
+            if (serverIpAddress) {
+                // Update ping status for the server's IP address
+                const status = await simulatePing(serverIpAddress);
+                updatePingStatus(serverIpAddress, status);
+            }
+        }
+
+        // Fetch server's IP address (replace with your server's IP or domain)
+        async function fetchServerIpAddress() {
+            try {
+                const response = await fetch('https://api.ipify.org/?format=json');
+                const data = await response.json();
+                return data.ip;
+            } catch (error) {
+                console.error('Error fetching server IP address:', error);
+                return null;
+            }
+        }
+
+        // Simulating ping status update (replace with actual ping functionality)
+        setInterval(updatePingStatusAndIp, 3000); // Update every 3 seconds
+
+        // Simulated ping function
+        async function simulatePing(ipAddress) {
+            try {
+                const response = await fetch(`http://${ipAddress}`);
+                if (response.ok) {
+                    return 'Server is reachable';
+                } else {
+                    return 'Server is unreachable';
+                }
+            } catch (error) {
+                console.error('Error pinging server:', error);
+                return 'Error pinging server';
+            }
+        }
+    </script>
+</body>
+
+</html>
